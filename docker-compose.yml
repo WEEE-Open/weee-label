@@ -1,0 +1,15 @@
+---
+version: '3.4'
+services:
+  app:
+    image: weee-label
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      cache_from:
+        - weee-label
+    volumes:
+      - ./db.sqlite:/app/db.sqlite
+      - ./dataset.json:/app/dataset.json
+    ports:
+      - "80:80"
