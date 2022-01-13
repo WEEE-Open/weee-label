@@ -200,3 +200,5 @@ def manage_users():
         flash(error)
 
     return render_template("manageusers.html")
+
+# TODO: add page where the admin can see the percentage of completion and what labels are missing
