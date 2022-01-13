@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WEEE Label</title>
+</head>
+<body>
+<nav>
+  <h1><a href="{{ url_for('label') }}">WEEE Label</a></h1>
+{#  <ul>#}
+{#  </ul>#}
+</nav>
+{% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+{% endfor %}
+{% block content %}{% endblock %}
+<hr />
+<form method="post">
+    <input type="submit" name="logout" value="Logout">
+</form>
+</body>
+</html>

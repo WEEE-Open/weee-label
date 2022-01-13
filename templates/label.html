@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h4>Rate this comment:</h4>
+    <p>{{ comment }}</p>
+    <form method="post">
+        <input type="submit" name="toxic" value="Toxic">
+        <input type="submit" name="nontoxic" value="Non-toxic">
+    </form>
+    <hr />
+    <form method="post">
+        <input type="submit" name="goback" value="Go back one">
+    </form>
+{% endblock %}
