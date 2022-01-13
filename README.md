@@ -4,6 +4,8 @@ A bad website for a good purpose
 <hr />
 A Flask backend + pure HTML frontend to allow people to easily help with binary dataset labeling
 
+<img src="readme/labeling.png" alt="labeling phase" height="350">
+
 ### How it works
 
 User with ID=1 is admin and can add and remove users at `/manageusers`.  
@@ -22,6 +24,9 @@ where
 user_to_label_ratio = 1 / users_count
 ```
 meaning if there are 100 users, the dataset length is 1000, and my user ID is 20, I will have to label the `[190, 199]` entries data range.
+
+<img src="readme/login.png" alt="login" height="200">
+<img src="readme/user_management.png" alt="user management" height="350">
 
 ### How to run
 
