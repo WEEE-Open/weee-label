@@ -27,7 +27,7 @@ meaning if there are 100 users, the dataset length is 1000, and my user ID is 20
 
 1. `python -m venv venv`
 2. `source venv/bin/activate`
-3. `pip install Flask`
+3. `pip install -r requirements.txt`
 4. `FLASK_APP=app.py FLASK_ENV=development flask run`
 5. `FLASK_APP=app.py FLASK_ENV=development flask init-db` (first time only)
 6. `FLASK_APP=app.py FLASK_ENV=development flask run` again (first time only)
