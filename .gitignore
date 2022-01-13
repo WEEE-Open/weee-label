@@ -1,0 +1,9 @@
+venv/
+.idea/
+__pycache__/
+**/.DS_Store
+flask/
+flaskr/
+dataset.json
+db.sqlite
+
