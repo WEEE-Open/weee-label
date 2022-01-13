@@ -31,3 +31,10 @@ meaning if there are 100 users, the dataset length is 1000, and my user ID is 20
 4. `FLASK_APP=app.py FLASK_ENV=development flask run`
 5. `FLASK_APP=app.py FLASK_ENV=development flask init-db` (first time only)
 6. `FLASK_APP=app.py FLASK_ENV=development flask run` again (first time only)
+
+### How to deploy
+
+1. Edit `schema.sql` so that the admin user has a different username than "replace_me_with_secret_admin_username"
+2. `docker-compose up -d`
+3. Configure a reverse proxy to forward port 80 (or change the port in `docker-compose.yml`)
+4. Domain, DNS and TLS certificates are up to you 😏
