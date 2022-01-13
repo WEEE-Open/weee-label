@@ -7,7 +7,8 @@ A Flask backend + pure HTML frontend to allow people to easily help with binary 
 ### How it works
 
 User with ID=1 is admin and can add and remove users at `/manageusers`.  
-All users can classify a data point by clicking on a button, until their share of data entries to label is completed.  
+
+All signed-in users can label a data point at `/` by clicking on a button, until their share of data entries to label is completed.  
 Their share is computed as the range of data points from 
 ```python
 dataset_lower_limit = int(dataset_len * (user_id - 1) * user_to_label_ratio)
