@@ -167,7 +167,10 @@ def manage_users():
             return redirect("/")
         else:
             error = None
-            if session["user_id"] == 1:
+            if session["user_id"] != 1:
+                flash("Unauthorized to manage users.")
+                return redirect("/")
+            else:
                 if "newusername" in request.form:
                     username = uuid.uuid4().hex
                     get_db().execute(
@@ -193,9 +196,6 @@ def manage_users():
 
                 if error is None:
                     return render_template("manageusers.html")
-
-            else:
-                error = "Unauthorized to manage users."
 
         flash(error)
 
