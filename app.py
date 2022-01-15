@@ -71,7 +71,7 @@ def logout():
     return redirect("/login")
 
 
-def update_dataset(label: bool):
+def update_dataset(label):
     with open("dataset.json", "r+") as f:
         dataset = json.load(f)
         dataset[session["start_id"]]["label"] = label
@@ -80,7 +80,7 @@ def update_dataset(label: bool):
         f.truncate()  # fix if the updated file is smaller than the original
 
         app.logger.info(f"User {session['user_id']} "
-                        f"rated {'toxic' if label else 'non-toxic'} "
+                        f"rated {label} "
                         f"comment {dataset[session['start_id']]['comment']}")
 
 
@@ -101,6 +101,9 @@ def label():
 
         elif "nontoxic" in request.form:
             update_dataset(label=False)
+
+        elif "unknown" in request.form:
+            update_dataset(label="/")
 
         elif "goback" in request.form:
             if "entry_id" in session:
