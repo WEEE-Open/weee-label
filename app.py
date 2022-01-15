@@ -215,4 +215,46 @@ def manage_users():
 
     return render_template("manageusers.html")
 
-# TODO: add page where the admin can see the percentage of completion and what labels are missing
+
+@app.route("/stats", methods=("GET","POST"))
+def see_stats():
+    """See labeling completion statistics."""
+
+    if request.method == "POST":
+        if "logout" in request.form:
+            return logout()
+
+    if session.get("user_id") != 1:
+        flash("Unauthorized to see stats.")
+        return redirect("/")
+
+    with open("dataset.json", "r") as f:
+        dataset = json.load(f)
+
+    labeled = []
+    for i, entry in enumerate(dataset):
+        if "label" in entry and entry["label"]:
+            labeled.append({
+                "index": i,
+                "label": entry["label"],
+            })
+
+    users_count = len(get_db().execute("SELECT * FROM users").fetchall())
+    user_to_label_ratio = 1 / users_count
+    dataset_len = len(dataset)
+    users_assignments = []
+    for user_id in range(1, users_count + 1):
+        dataset_lower_limit = int(dataset_len * (user_id - 1) * user_to_label_ratio)
+        dataset_upper_limit = int(dataset_len * user_id * user_to_label_ratio)
+        users_assignments.append(f"{user_id}: [{dataset_lower_limit}:{dataset_upper_limit})")
+
+    stats = {
+        "Completion (%)": len(labeled) / len(dataset) * 100,
+        "Labeled Toxic (%)": len([e for e in labeled if e["label"] == True]) / len(labeled) * 100,
+        "Labeled Non-toxic (%)": len([e for e in labeled if e["label"] == False]) / len(labeled) * 100,
+        "Labeled Unknown (%)": len([e for e in labeled if e["label"] == "/"]) / len(labeled) * 100,
+        "Users' Assignments": users_assignments,
+        "Labeled IDs": [e["index"] for e in labeled],
+    }
+
+    return render_template("stats.html", stats=stats)

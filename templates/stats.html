@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table>
+    {% for name, stat in stats.items() %}
+        <tr>
+          <td>{{ name }}</td>
+          <td>{{ stat }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    {% include 'logout.html' %}
+{% endblock %}
