@@ -112,6 +112,8 @@ def label():
 
     start = 0
     comment = ""
+    done = False
+
     with open("dataset.json", "r") as f:
         dataset = json.load(f)
         dataset_len = len(dataset)
@@ -135,9 +137,9 @@ def label():
                     app.logger.debug(f"entry_id: {session['entry_id']}, start_id: {session['start_id']}, entry: {entry}")
                     break
         else:
-            ...  # TODO: render template saying "nice job"
+            done = True
 
-    return render_template("label.html", comment=comment)
+    return render_template("label.html", comment=comment, done=done)
 
 
 @app.route("/login", methods=("GET", "POST"))

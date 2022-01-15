@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h4>Is this comment:</h4>
-    <p>{{ comment }}</p>
-    <form method="post">
-        <input type="submit" name="toxic" value="Toxic">
-        <input type="submit" name="nontoxic" value="Non-toxic">
-        <span> - </span>
-        <input type="submit" name="unknown" value="I can't say">
-    </form>
-    <hr />
-    <form method="post">
-        <input type="submit" name="goback" value="Go back one">
-    </form>
+    {% if not done %}
+        <h4>Is this comment:</h4>
+        <p>{{ comment }}</p>
+        <form method="post">
+            <input type="submit" name="toxic" value="Toxic">
+            <input type="submit" name="nontoxic" value="Non-toxic">
+            <span> - </span>
+            <input type="submit" name="unknown" value="I can't say">
+        </form>
+        <hr />
+        <form method="post">
+            <input type="submit" name="goback" value="Go back one">
+        </form>
+    {% else %}
+        <h4>Nice job! You've done your part! 🎉</h4>
+        <img src="{{url_for('static', filename='im_doing_my_part.gif')}}" style="width:420px;" alt="lollone">
+    {% endif %}
 
     {% include 'logout.html' %}
 {% endblock %}
