@@ -65,6 +65,12 @@ def load_logged_in_user():
         )
 
 
+def logout():
+    """Clear the current session, including the stored user id."""
+    session.clear()
+    return redirect("/login")
+
+
 def update_dataset(label: bool):
     with open("dataset.json", "r+") as f:
         dataset = json.load(f)
@@ -88,9 +94,7 @@ def label():
 
     if request.method == "POST":
         if "logout" in request.form:
-            """Clear the current session, including the stored user id."""
-            session.clear()
-            return redirect("/login")
+            return logout()
 
         elif "toxic" in request.form:
             update_dataset(label=True)
@@ -165,6 +169,10 @@ def manage_users():
     if request.method == "POST":
         if "cancel" in request.form:
             return redirect("/")
+
+        elif "logout" in request.form:
+            return logout()
+
         else:
             error = None
             if session["user_id"] != 1:
