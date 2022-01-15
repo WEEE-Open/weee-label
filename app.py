@@ -166,7 +166,12 @@ def login():
 @app.route("/manageusers", methods=("GET", "POST"))
 def manage_users():
     """Add and remove users."""
-    if request.method == "POST":
+    if request.method == "GET":
+        if session.get("user_id") != 1:
+            flash("Unauthorized to manage users.")
+            return redirect("/")
+
+    elif request.method == "POST":
         if "cancel" in request.form:
             return redirect("/")
 
@@ -175,35 +180,31 @@ def manage_users():
 
         else:
             error = None
-            if session["user_id"] != 1:
-                flash("Unauthorized to manage users.")
-                return redirect("/")
+            if "newusername" in request.form:
+                username = uuid.uuid4().hex
+                get_db().execute(
+                    "INSERT INTO users (username) VALUES (?)", (username,)
+                )
+                get_db().commit()
+                flash(f"Added user {username} - ⚠️ COPY IT NOW ⚠️")
             else:
-                if "newusername" in request.form:
-                    username = uuid.uuid4().hex
-                    get_db().execute(
-                        "INSERT INTO users (username) VALUES (?)", (username,)
-                    )
-                    get_db().commit()
-                    flash(f"Added user {username} - ⚠️ COPY IT NOW ⚠️")
-                else:
-                    username = request.form["delusername"]
-                    user = get_db().execute(
-                        "SELECT * FROM users WHERE username = ?", (username,)
-                    ).fetchone()
+                username = request.form["delusername"]
+                user = get_db().execute(
+                    "SELECT * FROM users WHERE username = ?", (username,)
+                ).fetchone()
 
-                    if user is None:
-                        error = f"Non-existing username: {username}."
-
-                    if error is None:
-                        get_db().execute(
-                            "DELETE FROM users WHERE username = ?", (username,)
-                        )
-                        get_db().commit()
-                        flash(f"Deleted user {username}.")
+                if user is None:
+                    error = f"Non-existing username: {username}."
 
                 if error is None:
-                    return render_template("manageusers.html")
+                    get_db().execute(
+                        "DELETE FROM users WHERE username = ?", (username,)
+                    )
+                    get_db().commit()
+                    flash(f"Deleted user {username}.")
+
+            if error is None:
+                return render_template("manageusers.html")
 
         flash(error)
 
