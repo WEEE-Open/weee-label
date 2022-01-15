@@ -1,14 +1,14 @@
 # WEEE Label
 
-A bad website for a good purpose
-<hr />
-A Flask backend + pure HTML frontend to allow people to easily help with binary dataset labeling
+A bad website for a good purpose | a Flask backend + pure HTML frontend to allow people to easily help with binary dataset labeling
 
 <img src="readme/labeling.png" alt="labeling phase" height="350">
 
 ### How it works
 
-User with ID=1 is admin and can add and remove users at `/manageusers`.  
+User with ID=1 is admin and can:
+- add and remove users at `/manageusers`
+- see completion statistics at `/stats`
 
 All signed-in users can label a data point at `/` by clicking on a button, until their share of data entries to label is completed.  
 Their share is computed as the range of data points from 
@@ -27,6 +27,7 @@ meaning if there are 100 users, the dataset length is 1000, and my user ID is 20
 
 <img src="readme/login.png" alt="login" height="200">
 <img src="readme/user_management.png" alt="user management" height="350">
+<img src="readme/stats.png" alt="stats" height="350">
 
 ### How to run
 
