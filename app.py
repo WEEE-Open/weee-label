@@ -224,7 +224,7 @@ def see_stats():
 
     labeled = []
     for i, entry in enumerate(dataset):
-        if "label" in entry and entry["label"]:
+        if "label" in entry and entry["label"] is not None:
             labeled.append({
                 "index": i,
                 "label": entry["label"],
