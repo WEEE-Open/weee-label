@@ -26,12 +26,14 @@ dictConfig({
 })
 
 # create example dataset
-if not os.path.exists("dataset.json"):
+if os.path.exists("dataset.json"):
+    app.logger.info("Dataset found, skipping example dataset creation.")
+else:
     d = []
 
     for i in range(1000):
         d.append({
-            "comment": f"test {i}",
+            "text": f"test {i}",
             "label": None,
         })
 
@@ -81,7 +83,7 @@ def update_dataset(label):
 
         app.logger.info(f"User {session['user_id']} "
                         f"rated {label} "
-                        f"comment {dataset[session['start_id']]['comment']}")
+                        f"text {dataset[session['start_id']]['text']}")
 
 
 @app.route("/", methods=("GET", "POST"))
@@ -111,7 +113,7 @@ def label():
                 go_back = True
 
     start = 0
-    comment = ""
+    text = ""
     done = False
 
     with open("dataset.json", "r") as f:
@@ -129,9 +131,9 @@ def label():
         # can't use enumerate to start from an offset https://stackoverflow.com/posts/14736201/timeline#comment_82284617
         for i in range(start, dataset_len):
             entry = dataset_to_label[i]
-            if "comment" in entry:
+            if "text" in entry:
                 if go_back or ("label" not in entry or entry["label"] is None):
-                    comment = entry["comment"]
+                    text = entry["text"]
                     session["entry_id"] = i
                     session["start_id"] = i + dataset_lower_limit
                     app.logger.debug(f"entry_id: {session['entry_id']}, start_id: {session['start_id']}, entry: {entry}")
@@ -139,7 +141,7 @@ def label():
         else:
             done = True
 
-    return render_template("label.html", comment=comment, done=done)
+    return render_template("label.html", text=text, done=done)
 
 
 @app.route("/login", methods=("GET", "POST"))
@@ -216,7 +218,7 @@ def manage_users():
     return render_template("manageusers.html")
 
 
-@app.route("/stats", methods=("GET","POST"))
+@app.route("/stats", methods=("GET", "POST"))
 def see_stats():
     """See labeling completion statistics."""
 
