@@ -6,4 +6,4 @@ flask/
 flaskr/
 dataset.json
 db.sqlite
-
+secret.py

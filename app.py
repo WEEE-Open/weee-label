@@ -5,11 +5,12 @@ import uuid
 from flask import Flask, flash, g, redirect, request, session, render_template
 from db import init_app, get_db
 import functools
+from secret import app_key
 
 
 app = Flask(__name__)
 app.config.from_mapping(
-    SECRET_KEY="changeme",
+    SECRET_KEY=app_key,
     DATABASE="db.sqlite",
 )
 init_app(app)
