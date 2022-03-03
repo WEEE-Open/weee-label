@@ -250,13 +250,22 @@ def see_stats():
         dataset_upper_limit = int(dataset_len * user_id * user_to_label_ratio)
         users_assignments.append(f"{user_id}: [{dataset_lower_limit}:{dataset_upper_limit})")
 
-    stats = {
-        "Completion (%)": len(labeled) / len(dataset) * 100,
-        "Labeled Toxic (%)": len([e for e in labeled if e["label"] == True]) / len(labeled) * 100,
-        "Labeled Non-toxic (%)": len([e for e in labeled if e["label"] == False]) / len(labeled) * 100,
-        "Labeled Unknown (%)": len([e for e in labeled if e["label"] == "/"]) / len(labeled) * 100,
-        "Users' Assignments": users_assignments,
-        "Labeled IDs": [e["index"] for e in labeled],
-    }
+    if len(labeled) == 0:
+        stats = {
+            "Completion (%)": 0,
+            "Labeled Toxic (%)": "N/A",
+            "Labeled Non-toxic (%)": "N/A",
+            "Labeled Unknown (%)": "N/A",
+        }
+    else:
+        stats = {
+            "Completion (%)": len(labeled) / len(dataset) * 100,
+            "Labeled Toxic (%)": len([e for e in labeled if e["label"] == True]) / len(labeled) * 100,
+            "Labeled Non-toxic (%)": len([e for e in labeled if e["label"] == False]) / len(labeled) * 100,
+            "Labeled Unknown (%)": len([e for e in labeled if e["label"] == "/"]) / len(labeled) * 100,
+        }
+
+    stats["Users' Assignments"] = users_assignments
+    stats["Labeled IDs"] = [e["index"] for e in labeled]
 
     return render_template("stats.html", stats=stats)
