@@ -6,5 +6,5 @@ COPY schema.sql .
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY templates templates
-COPY *.py .
+COPY *.py ./
 RUN mv app.py main.py
