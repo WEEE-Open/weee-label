@@ -1,9 +1,8 @@
 import json
 import os.path
-from logging.config import dictConfig
 import uuid
 
-from flask import Flask, flash, g, redirect, request, session, url_for, render_template, logging
+from flask import Flask, flash, g, redirect, request, session, render_template
 from db import init_app, get_db
 import functools
 
@@ -14,16 +13,6 @@ app.config.from_mapping(
     DATABASE="db.sqlite",
 )
 init_app(app)
-
-logger = logging.create_logger(app)
-
-# logger
-dictConfig({
-    'version': 1,
-    'root': {
-        'level': 'INFO',
-    }
-})
 
 # create example dataset
 if os.path.exists("dataset.json"):
