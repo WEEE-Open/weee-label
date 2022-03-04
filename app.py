@@ -187,7 +187,7 @@ def manage_users():
                     "INSERT INTO users (username) VALUES (?)", (username,)
                 )
                 get_db().commit()
-                flash(f"Added user {username} - ⚠️ COPY IT NOW ⚠️")
+                flash(f"Added user {username}️")
             else:
                 username = request.form["delusername"]
                 user = get_db().execute(
@@ -196,6 +196,9 @@ def manage_users():
 
                 if user is None:
                     error = f"Non-existing username: {username}."
+
+                if user['id'] == 1:
+                    error = "⚠️ Cannot delete admin user. ⚠️"
 
                 if error is None:
                     get_db().execute(
