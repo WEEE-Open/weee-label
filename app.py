@@ -163,6 +163,10 @@ def login():
 @app.route("/manageusers", methods=("GET", "POST"))
 def manage_users():
     """Add and remove users."""
+    def render_and_return():
+        users = {row['id']: row['username'] for row in get_db().execute("SELECT * FROM users").fetchall()}
+        return render_template("manageusers.html", users=users)
+
     if request.method == "GET":
         if session.get("user_id") != 1:
             flash("Unauthorized to manage users.")
@@ -201,11 +205,11 @@ def manage_users():
                     flash(f"Deleted user {username}.")
 
             if error is None:
-                return render_template("manageusers.html")
+                return render_and_return()
 
         flash(error)
 
-    return render_template("manageusers.html")
+    return render_and_return()
 
 
 @app.route("/stats", methods=("GET", "POST"))

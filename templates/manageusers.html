@@ -8,7 +8,7 @@
     <hr />
     <h4>Delete existing user:</h4>
     <form method="post">
-        <label for="delusername">Delete username</label>
+        <label for="delusername">Username</label>
         <input name="delusername" id="delusername" required>
         <input type="submit" value="Delete user">
     </form>
@@ -16,6 +16,18 @@
     <form method="post">
         <input type="submit" name="cancel" value="Cancel">
     </form>
-
+    <hr />
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+        </tr>
+    {% for id, username in users.items() %}
+        <tr>
+          <td>{{ id }}</td>
+          <td>{{ username }}</td>
+        </tr>
+    {% endfor %}
+    </table>
     {% include 'logout.html' %}
 {% endblock %}
