@@ -131,7 +131,8 @@ def label():
         else:
             done = True
 
-    return render_template("label.html", text=text, done=done)
+    labeled = len([True for entry in dataset if entry["label"] is not None])
+    return render_template("label.html", text=text, done=done, labeled=labeled, total=len(dataset))
 
 
 @app.route("/login", methods=("GET", "POST"))

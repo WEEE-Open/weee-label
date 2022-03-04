@@ -2,6 +2,7 @@
 
 {% block content %}
     {% if not done %}
+        <progress value={{ labeled }} max={{ total }} style="width: 100%"></progress>
         <h4>Is this comment:</h4>
         <p>{{ text }}</p>
         <form method="post">
