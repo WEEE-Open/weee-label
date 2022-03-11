@@ -3,6 +3,7 @@ version: '3.4'
 services:
   app:
     image: weee-label
+    restart: unless-stopped
     build:
       context: ./
       dockerfile: ./Dockerfile
