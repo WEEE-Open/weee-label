@@ -1,6 +1,7 @@
 import json
 import os.path
 import uuid
+from threading import Lock
 
 from flask import Flask, flash, g, redirect, request, session, render_template
 from db import init_app, get_db
@@ -14,6 +15,7 @@ app.config.from_mapping(
     DATABASE="db.sqlite",
 )
 init_app(app)
+lock = Lock()
 
 # create example dataset
 if os.path.exists("dataset.json"):
@@ -64,6 +66,7 @@ def logout():
 
 
 def update_dataset(label):
+    lock.acquire()
     with open("dataset.json", "r+") as f:
         dataset = json.load(f)
         dataset[session["start_id"]]["label"] = label
@@ -74,6 +77,7 @@ def update_dataset(label):
         app.logger.info(f"User {session['user_id']} "
                         f"rated {label} "
                         f"text {dataset[session['start_id']]['text']}")
+    lock.release()
 
 
 @app.route("/", methods=("GET", "POST"))
