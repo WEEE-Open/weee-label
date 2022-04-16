@@ -251,7 +251,7 @@ def see_stats():
         dataset_lower_limit = int(dataset_len * (user_id - 1) * user_to_label_ratio)
         dataset_upper_limit = int(dataset_len * user_id * user_to_label_ratio)
         users_assignments.append(f"{user_id}: [{dataset_lower_limit}:{dataset_upper_limit}) "
-                                 f"({len([e for e in labeled[dataset_lower_limit:dataset_upper_limit] if e['label'] in (True, False, '/')]) / len(dataset) * 100 if labeled else '0':.2f} %)")
+                                 f"({len([e for e in dataset[dataset_lower_limit:dataset_upper_limit] if e['label'] in (True, False, '/')]) / (dataset_upper_limit - dataset_lower_limit) * 100:.2f} %)")
 
     if len(labeled) == 0:
         stats = {
