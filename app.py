@@ -258,13 +258,17 @@ def see_stats():
             "Labeled Toxic (%)": "N/A",
             "Labeled Non-toxic (%)": "N/A",
             "Labeled Unknown (%)": "N/A",
+            "Usable (labeled toxic + labeled non-toxic)": 0,
         }
     else:
         stats = {
             "Completion (%)": len(labeled) / len(dataset) * 100,
-            "Labeled Toxic (%)": len([e for e in labeled if e["label"] == True]) / len(labeled) * 100,
-            "Labeled Non-toxic (%)": len([e for e in labeled if e["label"] == False]) / len(labeled) * 100,
+            "Labeled Toxic (%)": len([e for e in labeled if e["label"] is True]) / len(labeled) * 100,
+            "Labeled Non-toxic (%)": len([e for e in labeled if e["label"] is False]) / len(labeled) * 100,
             "Labeled Unknown (%)": len([e for e in labeled if e["label"] == "/"]) / len(labeled) * 100,
+            "Usable (labeled toxic + labeled non-toxic)": len([
+                e for e in labeled if e["label"] is True or e["label"] is False
+            ]),
         }
 
     stats["Users' Assignments"] = users_assignments
