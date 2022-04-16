@@ -250,7 +250,8 @@ def see_stats():
     for user_id in range(1, users_count + 1):
         dataset_lower_limit = int(dataset_len * (user_id - 1) * user_to_label_ratio)
         dataset_upper_limit = int(dataset_len * user_id * user_to_label_ratio)
-        users_assignments.append(f"{user_id}: [{dataset_lower_limit}:{dataset_upper_limit})")
+        users_assignments.append(f"{user_id}: [{dataset_lower_limit}:{dataset_upper_limit}) "
+                                 f"({len([e for e in labeled[dataset_lower_limit:dataset_upper_limit] if e['label'] in (True, False, '/')]) / len(dataset) * 100 if labeled else '0':.2f} %)")
 
     if len(labeled) == 0:
         stats = {
@@ -271,7 +272,7 @@ def see_stats():
             ]),
         }
 
-    stats["Users' Assignments"] = users_assignments
+    stats["Users' Assignments"] = " - ".join(users_assignments)
     stats["Labeled IDs"] = [e["index"] for e in labeled]
 
     return render_template("stats.html", stats=stats)
